@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Student ID - {{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="student-id-container">
+    <div class="student-card">
+        <div class="card-header">
+            <h2>Student Identification Card</h2>
+        </div>
+
+        <div class="card-content">
+            <div class="card-left">
+                {% if student.photo %}
+                    <img src="{{ student.photo.url }}" alt="{{ student.name }}" class="student-photo">
+                {% else %}
+                    <div class="photo-placeholder">
+                        <span>📷</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="card-middle">
+                <div class="student-detail">
+                    <label>Name</label>
+                    <p>{{ student.name }}</p>
+                </div>
+
+                <div class="student-detail">
+                    <label>Roll Number</label>
+                    <p>{{ student.roll_number }}</p>
+                </div>
+
+                <div class="student-detail">
+                    <label>Department</label>
+                    <p>{{ student.get_department_display }}</p>
+                </div>
+
+                <div class="student-detail">
+                    <label>Year</label>
+                    <p>Year {{ student.year }}</p>
+                </div>
+
+                <div class="student-detail">
+                    <label>Student ID</label>
+                    <p class="student-uuid">{{ student.student_id }}</p>
+                </div>
+            </div>
+
+            <div class="card-right">
+                {% if student.qr_code %}
+                    <div class="qr-section">
+                        <img src="{{ student.qr_code.url }}" alt="QR Code" class="qr-code-image">
+                        <p class="qr-label">Scan for Verification</p>
+                    </div>
+                {% else %}
+                    <div class="qr-section">
+                        <div class="qr-placeholder">
+                            <p>QR Code Not Generated</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <p>Generated on: {{ student.created_at|date:"d M Y" }}</p>
+        </div>
+
+        <div class="card-actions">
+            {% if student.qr_code %}
+                <a href="{% url 'download_qr' student.student_id %}" class="btn btn-primary">Download QR</a>
+            {% endif %}
+            <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

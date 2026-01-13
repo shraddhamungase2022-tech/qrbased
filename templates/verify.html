@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Verify Student - QR System{% endblock %}
+
+{% block content %}
+<div class="verify-container">
+    <div class="verify-box">
+        <h2>Student Verification</h2>
+
+        <div class="verify-methods">
+            <div class="method-tabs">
+                <button class="tab-btn active" onclick="switchTab('manual')">Manual Input</button>
+                <button class="tab-btn" onclick="switchTab('camera')">Scan QR Code</button>
+            </div>
+
+            <!-- Manual Input -->
+            <div id="manual" class="tab-content active">
+                <form method="POST" class="form-group">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="qr_data">Enter QR Code Data</label>
+                        <textarea 
+                            id="qr_data" 
+                            name="qr_data" 
+                            class="form-control" 
+                            placeholder="Paste the QR code data here..."
+                            rows="6"
+                        ></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Verify</button>
+                </form>
+            </div>
+
+            <!-- Camera Scan -->
+            <div id="camera" class="tab-content">
+                <div class="camera-container">
+                    <video id="cameraVideo" style="display: none; width: 100%; max-width: 400px;"></video>
+                    <canvas id="cameraCanvas" style="display: none;"></canvas>
+                    <div id="qrScannerContainer" style="width: 100%; max-width: 400px; height: 300px; border: 2px dashed #ddd; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                        <p>📹 Camera view will appear here</p>
+                    </div>
+                </div>
+                <button id="startScan" class="btn btn-success" style="margin-top: 15px;">Start Camera</button>
+                <button id="stopScan" class="btn btn-danger" style="margin-top: 15px; display: none;">Stop Camera</button>
+                <div id="scanResult" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <!-- Result Display -->
+        {% if result %}
+        <div class="result-container">
+            <div class="result-box {% if result.status == 'valid' %}result-valid{% else %}result-invalid{% endif %}">
+                <h3>{{ result.message }}</h3>
+                
+                {% if result.status == 'valid' and result.student %}
+                <div class="student-info">
+                    <div class="info-row">
+                        <span class="label">Name:</span>
+                        <span class="value">{{ result.student.name }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Roll Number:</span>
+                        <span class="value">{{ result.student.roll_number }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Department:</span>
+                        <span class="value">{{ result.student.department }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Year:</span>
+                        <span class="value">{{ result.student.year }}</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+<script src="{% static 'js/verify.js' %}"></script>
+{% endblock %}

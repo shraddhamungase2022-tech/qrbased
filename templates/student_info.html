@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ student.name }} - Student Information</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .card-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .photo-section {
+            display: flex;
+            justify-content: center;
+            padding: 30px 20px 20px;
+            background: #f8f9fa;
+        }
+
+        .student-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 15px;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 5px solid white;
+        }
+
+        .photo-placeholder {
+            width: 180px;
+            height: 180px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f0e7ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section {
+            padding: 30px 20px;
+        }
+
+        .info-group {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-value {
+            font-size: 18px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .verification-badge {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .badge-icon {
+            font-size: 20px;
+        }
+
+        .department-badge {
+            display: inline-block;
+            background: #e7f3ff;
+            color: #0066cc;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .year-badge {
+            display: inline-block;
+            background: #fff3e0;
+            color: #e65100;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .qr-section {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .qr-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .qr-image {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 480px) {
+            .card-header h1 {
+                font-size: 24px;
+            }
+
+            .student-photo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .photo-placeholder {
+                width: 150px;
+                height: 150px;
+                font-size: 60px;
+            }
+
+            .info-section {
+                padding: 20px 15px;
+            }
+
+            .info-value {
+                font-size: 16px;
+            }
+        }
+
+        .verified-check {
+            color: #28a745;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Header -->
+            <div class="card-header">
+                <h1>{{ student.name }}</h1>
+                <p>Student Information</p>
+            </div>
+
+            <!-- Verification Badge -->
+            <div class="photo-section">
+                <div style="width: 100%; padding: 20px;">
+                    <div class="verification-badge">
+                        <span class="badge-icon">✓</span>
+                        <span>Verified Student</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photo -->
+            <div class="photo-section">
+                {% if student.photo %}
+                    <img src="{{ student.photo.url }}" alt="{{ student.name }}" class="student-photo">
+                {% else %}
+                    <div class="photo-placeholder">📷</div>
+                {% endif %}
+            </div>
+
+            <!-- Information -->
+            <div class="info-section">
+                <div class="info-group">
+                    <div class="info-label">Roll Number</div>
+                    <div class="info-value">{{ student.roll_number }}</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">Student ID</div>
+                    <div class="info-value" style="font-family: monospace; font-size: 14px;">{{ student.student_id }}</div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">Department & Year</div>
+                    <div>
+                        <span class="department-badge">{{ student.get_department_display }}</span>
+                        <span class="year-badge">Year {{ student.year }}</span>
+                    </div>
+                </div>
+
+                <div class="info-group">
+                    <div class="info-label">Member Since</div>
+                    <div class="info-value">{{ student.created_at|date:"d M, Y" }}</div>
+                </div>
+            </div>
+
+            <!-- QR Code Section -->
+            {% if student.qr_code %}
+            <div class="qr-section">
+                <div class="qr-label">QR Code</div>
+                <img src="{{ student.qr_code.url }}" alt="QR Code" class="qr-image">
+            </div>
+            {% endif %}
+
+            <!-- Footer -->
+            <div class="footer">
+                <p>📱 Scanned via QR Code</p>
+                <p style="margin-top: 8px;">Institute Student Verification System</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

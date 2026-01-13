@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Login - Student QR System{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-box">
+        <h2>Admin Login</h2>
+        <form method="POST" class="form-group">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    class="form-control" 
+                    placeholder="Enter admin username"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-control" 
+                    placeholder="Enter password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <div class="form-footer">
+            <p>Don't have an admin account? Contact your administrator.</p>
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<div class="demo-info">
+    <h3>Demo Credentials</h3>
+    <p><strong>Username:</strong> admin</p>
+    <p><strong>Password:</strong> admin123</p>
+    <p><em>Run 'python manage.py createsuperuser' to create your own admin account.</em></p>
+</div>
+{% endblock %}

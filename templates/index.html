@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Student QR Verification{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>Student QR Verification System</h1>
+    <p>Secure and efficient student verification using QR codes</p>
+</div>
+
+<div class="options-grid">
+    <div class="option-card">
+        <div class="option-icon">👤</div>
+        <h2>Admin Login</h2>
+        <p>Add and manage student records with unique QR codes</p>
+        <a href="{% url 'admin_login' %}" class="btn btn-primary">Login as Admin</a>
+    </div>
+
+    <div class="option-card">
+        <div class="option-icon">📱</div>
+        <h2>Student ID</h2>
+        <p>View your student ID card with QR code</p>
+        <button class="btn btn-secondary" onclick="showStudentModal()">View Student ID</button>
+    </div>
+
+    <div class="option-card">
+        <div class="option-icon">✓</div>
+        <h2>Verify Student</h2>
+        <p>Scan or input QR code to verify student details</p>
+        <a href="{% url 'verify_student' %}" class="btn btn-success">Verify Now</a>
+    </div>
+</div>
+
+<div id="studentModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeStudentModal()">&times;</span>
+        <h2>Enter Student ID</h2>
+        <input type="text" id="studentIdInput" placeholder="Enter or paste Student ID (UUID)" class="form-control">
+        <button onclick="goToStudentId()" class="btn btn-primary" style="margin-top: 10px;">View</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}

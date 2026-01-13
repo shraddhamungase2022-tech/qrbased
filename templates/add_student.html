@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Student - Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-box" style="max-width: 600px;">
+        <h2>Add New Student</h2>
+        <form method="POST" enctype="multipart/form-data" class="form-group">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Name *</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <span class="error">{{ form.name.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.roll_number.id_for_label }}">Roll Number *</label>
+                {{ form.roll_number }}
+                {% if form.roll_number.errors %}
+                    <span class="error">{{ form.roll_number.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.department.id_for_label }}">Department *</label>
+                    {{ form.department }}
+                    {% if form.department.errors %}
+                        <span class="error">{{ form.department.errors }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.year.id_for_label }}">Year *</label>
+                    {{ form.year }}
+                    {% if form.year.errors %}
+                        <span class="error">{{ form.year.errors }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.photo.id_for_label }}">Photo (Optional)</label>
+                {{ form.photo }}
+                {% if form.photo.errors %}
+                    <span class="error">{{ form.photo.errors }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Add Student</button>
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
