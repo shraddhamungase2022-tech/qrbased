@@ -99,6 +99,32 @@ def student_id(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
     return render(request, 'student_info.html', {'student': student})
 
+def delete_student(request, student_id):
+    if not request.user.is_staff:
+        return redirect('home')
+    
+    student = get_object_or_404(Student, student_id=student_id)
+    student.delete()
+    messages.success(request, f'Student {student.name} deleted successfully!')
+    return redirect('admin_dashboard')
+
+def edit_student(request, student_id):
+    if not request.user.is_staff:
+        return redirect('home')
+    
+    student = get_object_or_404(Student, student_id=student_id)
+    
+    if request.method == 'POST':
+        form = StudentForm(request.POST, request.FILES, instance=student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Student {student.name} updated successfully!')
+            return redirect('admin_dashboard')
+    else:
+        form = StudentForm(instance=student)
+    
+    return render(request, 'edit_student.html', {'form': form, 'student': student})
+
 # Verify Student
 def verify_student(request):
     result = None

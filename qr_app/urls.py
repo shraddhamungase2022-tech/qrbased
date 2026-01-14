@@ -11,4 +11,6 @@ urlpatterns = [
     path('verify/', views.verify_student, name='verify_student'),
     path('api/verify/', views.verify_api, name='verify_api'),
     path('download-qr/<uuid:student_id>/', views.download_qr, name='download_qr'),
+    path('delete-student/<uuid:student_id>/', views.delete_student, name='delete_student'),
+    path('edit-student/<uuid:student_id>/', views.edit_student, name='edit_student'),
 ]
